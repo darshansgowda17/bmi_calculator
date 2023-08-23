@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/icon_text.dart';
 
 const bottomContainerHeight = 80.0;
 const cardColor = Color(0xFF1D1E33);
+const inactiveCardColor = Color(0xFF111328);
+enum GenderType {
+  male,
+  female,
+}
 
-class InputPage extends StatefulWidget {
+class InputPage extends StatefulWidget{
   @override
   _InputPageState createState() => _InputPageState();
 }
 
 class _InputPageState extends State<InputPage> {
+  GenderType gender = GenderType.male;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,27 +29,32 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: Row(
               children: [
-                Cardd(colour: cardColor,cardChild: Container(
-                  child: Icon(
-                    Icons.male,
-                    color: Colors.white,
-                  ),
+                ReUsableCard(onPress: (){
+                  setState(() {
+                    gender = GenderType.male;
+                  });
+                },colour: (gender == GenderType.male)?(cardColor):inactiveCardColor, cardChild: IconText(
+                  title: "MALE",
+                  icon: Icons.male,
                 ),),
-                Cardd(colour: cardColor, cardChild: Container(
-                  child: Icon(
-                    Icons.female,
-                    color: Colors.white,
+                ReUsableCard(onPress: (){
+                  setState(() {
+                    gender = GenderType.female;
+                  });
+                },colour: (gender == GenderType.female)?(cardColor):inactiveCardColor, cardChild: IconText(
+                  title: "FEMALE",
+                  icon: Icons.female,
                   ),
-                ),),
+                ),
               ],
             ),
           ),
-          Cardd(colour: cardColor,cardChild: Container()),
+          ReUsableCard(colour: cardColor,cardChild: Container(),onPress: (){},),
           Expanded(
             child: Row(
               children: [
-                Cardd(colour: cardColor,cardChild: Container(),),
-                Cardd(colour: cardColor,cardChild: Container(),),
+                ReUsableCard(colour: cardColor,cardChild: Container(),onPress: (){},),
+                ReUsableCard(colour: cardColor,cardChild: Container(),onPress: (){},),
               ],
             ),
           ),
@@ -58,23 +71,3 @@ class _InputPageState extends State<InputPage> {
   }
 }
 
-class Cardd extends StatelessWidget {
-  Cardd({required this.colour,required this.cardChild});
-
-  final Color colour;
-  final Widget cardChild;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        child: cardChild,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: colour,
-        ),
-        margin: EdgeInsets.all(15.0),
-      ),
-    );
-  }
-}
