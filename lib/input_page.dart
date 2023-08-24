@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bmi_calculator/reusable_card.dart';
@@ -19,6 +20,10 @@ const normalStyle = TextStyle(
   fontSize: 18.0,
   color: Color(0xFF8D8E98),
 );
+const titleStyle = TextStyle(
+  fontSize: 50.0,
+  fontWeight: FontWeight.bold,
+);
 
 class InputPage extends StatefulWidget{
   @override
@@ -27,7 +32,7 @@ class InputPage extends StatefulWidget{
 
 class _InputPageState extends State<InputPage> {
   GenderType gender = GenderType.male;
-  int height=121;
+  int height=120;
   int weight = 60;
   int age = 20;
   @override
@@ -161,7 +166,9 @@ class _InputPageState extends State<InputPage> {
           ),
           GestureDetector(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> ResultPage()));
+              CalculatorBrain calc = CalculatorBrain(height: height, weight: weight);
+
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> ResultPage(bmiResult: calc.calculateBMI(),resultText: calc.getResult(),interpretation: calc.getInterpretation(),)));
             },
             child: Container(
               child: Center(
